@@ -1,0 +1,91 @@
+--Proyecto progra--
+-----Edison CV-----
+
+---Tabla estado----
+
+CREATE TABLE Estado
+(
+   Cod_Estado   INTEGER NOT NULL PRIMARY KEY,
+   Estados       VARCHAR2 (50) NOT NULL
+);
+                                                                 
+
+---Tabla usuario----
+
+CREATE TABLE Usuario
+(
+   Cod_Usuario    INTEGER NOT NULL PRIMARY KEY,
+   Nombre         VARCHAR2 (50) NOT NULL,
+   Nomenclatura   VARCHAR2 (20) NOT NULL,
+   Pass           VARCHAR2 (20) NOT NULL,
+   CodEstado      INTEGER NOT NULL,
+   FOREIGN KEY (CodEstado) REFERENCES Estado (Cod_Estado)
+);
+
+
+
+
+---Tabla camas----
+
+CREATE TABLE Camas
+(
+   Cod_Cama    INTEGER NOT NULL PRIMARY KEY,
+   Tipo        VARCHAR2 (50) NOT NULL,
+   CodEstado   INTEGER NOT NULL,
+   Ubicacion   VARCHAR2 (50) NOT NULL,
+   FOREIGN KEY (CodEstado) REFERENCES Estado (Cod_Estado)
+);
+
+---------------
+
+     
+     
+     
+     
+
+
+---Tabla Doctor----
+
+CREATE TABLE Doctor
+(
+   Cod_Doctor   INTEGER NOT NULL PRIMARY KEY,
+   Cedula       INTEGER NOT NULL,
+   Nombre       VARCHAR2 (50) NOT NULL,
+   Telefono     VARCHAR2 (20) NOT NULL,
+   CodEstado    INTEGER NOT NULL,
+   FOREIGN KEY (CodEstado) REFERENCES Estado (Cod_Estado)
+);
+
+
+
+
+---Tabla Paciente----
+
+CREATE TABLE Paciente
+(
+   Cod_Paciente   INTEGER NOT NULL PRIMARY KEY,
+   Cedula       INTEGER NOT NULL,
+   Nombre1         VARCHAR2 (50) NOT NULL,
+   Medicamentos   VARCHAR2 (50) NOT NULL,
+   Padecimiento   VARCHAR2 (150) NOT NULL,
+   Edad           INTEGER NOT NULL,
+   CodDoc         INTEGER NOT NULL,
+   CodEstado      INTEGER NOT NULL,
+   FOREIGN KEY (CodDoc) REFERENCES Doctor (Cod_Doctor),
+   FOREIGN KEY (CodEstado) REFERENCES Estado (Cod_Estado)
+);
+
+
+---Tabla Internamiento----
+
+CREATE TABLE Internamiento
+(
+   Cod_Internamiento   INTEGER NOT NULL PRIMARY KEY,
+   CodCama             INTEGER NOT NULL,
+   CodDoc              INTEGER NOT NULL,
+   CodPaciente         INTEGER NOT NULL,
+   Fecha_hora          VARCHAR2(50) NOT NULL,
+   FOREIGN KEY (CodDoc) REFERENCES Doctor (Cod_Doctor),
+   FOREIGN KEY (CodPaciente) REFERENCES Paciente (Cod_Paciente),
+   FOREIGN KEY (CodCama) REFERENCES Camas (Cod_Cama)
+);
